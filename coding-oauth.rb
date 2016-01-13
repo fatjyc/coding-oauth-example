@@ -2,12 +2,19 @@
 
 class CodingOauth < Sinatra::Base
 
-  cnf = YAML::load_file(File.join(__dir__, 'config.yml'))
+  begin
+    cnf = YAML::load_file(File.join(__dir__, 'config.yml'))
 
-  @@host = cnf['host'] | ENV['host']
-  @@url = cnf['url'] | ENV['url']
-  @@client_id = cnf['client_id'] | ENV['client_id']
-  @@client_secret = cnf['client_secret'] | ENV['client_secret']
+    @@host = cnf['host']
+    @@url = cnf['url']
+    @@client_id = cnf['client_id']
+    @@client_secret = cnf['client_secret']
+  rescue
+    @@host = ENV['host']
+    @@url = ENV['url']
+    @@client_id = ENV['client_id']
+    @@client_secret =  ENV['client_secret']
+  end
 
   configure :development do
     register Sinatra::Reloader
