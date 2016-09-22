@@ -1,5 +1,5 @@
 GEM
-  remote: https://ruby.taobao.org/
+  remote: https://rubygems.org/
   specs:
     backports (3.6.7)
     json (1.8.3)
@@ -31,4 +31,4 @@ DEPENDENCIES
   sinatra-contrib
 
 BUNDLED WITH
-   1.11.2
+   1.12.3
