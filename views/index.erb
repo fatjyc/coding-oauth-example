@@ -1,0 +1,20 @@
+<input type="text" id="team" placeholder="team">
+
+<button id="go" data-url="<%=@url %>">go</button>
+
+<script>
+var eventHandler = function() {
+  var team = document.getElementById('team');
+  var go = document.getElementById('go');
+  var url = go.getAttribute('data-url');
+  go.addEventListener('click', function() {
+    location.href = url + '&team=' + team.value;
+  });
+}
+
+if (document.readyState === 'complete' || document.readyState !== 'loading') {
+    eventHandler();
+} else {
+    document.addEventListener('DOMContentLoaded', eventHandler);
+}
+</script>
