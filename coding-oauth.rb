@@ -9,11 +9,13 @@ class CodingOauth < Sinatra::Base
     @@url = cnf['url']
     @@client_id = cnf['client_id']
     @@client_secret = cnf['client_secret']
+    @@domain = cnf['domain']
   rescue
     @@host = ENV['host']
     @@url = ENV['url']
     @@client_id = ENV['client_id']
     @@client_secret =  ENV['client_secret']
+    @@domain = ENV['domain']
   end
 
   configure :development do
@@ -28,7 +30,7 @@ class CodingOauth < Sinatra::Base
   get '/api/oauth/callback' do
     code = params[:code]
     team = params[:team]
-    domain = "https://#{team}.coding.net"
+    domain = @@domain % [team]
     @url = "#{domain}/api/oauth/access_token?client_id=#{@@client_id}&client_secret=#{@@client_secret}&grant_type=authorization_code&code=#{code}&team=#{team}"
     uri = URI.parse(@url)
     respone = Net::HTTP.get(uri)
