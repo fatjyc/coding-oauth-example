@@ -23,7 +23,7 @@ class CodingOauth < Sinatra::Base
   end
 
   get '/' do
-    @url = "#{@@url}/oauth_authorize.html?client_id=#{@@client_id}&redirect_uri=#{@@host}/api/oauth/callback&response_type=code&scope=all"
+    @url = "#{@@url}/oauth_authorize.html?client_id=#{@@client_id}&redirect_uri=#{URI.unescape(@@host)}/api/oauth/callback&response_type=code&scope=all"
     erb :index
   end
 
