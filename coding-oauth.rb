@@ -29,16 +29,17 @@ class CodingOauth < Sinatra::Base
 
   get '/api/oauth/callback' do
     code = params[:code]
-    team = params[:team]
-    domain = @@domain % [team]
-    @url = "#{domain}/api/oauth/access_token?client_id=#{@@client_id}&client_secret=#{@@client_secret}&grant_type=authorization_code&code=#{code}&team=#{team}"
+    @url = "#{@@url}/api/oauth/access_token?client_id=#{@@client_id}&client_secret=#{@@client_secret}&grant_type=authorization_code&code=#{code}"
+    puts @url
     uri = URI.parse(@url)
     respone = Net::HTTP.get(uri)
     respone = JSON.parse(respone)
+    puts respone
     access_token = respone['access_token']
-    uri = URI.parse("#{domain}/api/current_user?access_token=#{access_token}")
+    uri = URI.parse("#{@@url}/api/current_user?access_token=#{access_token}")
     respone = Net::HTTP.get(uri)
     @current_user = JSON.parse(respone)
+    puts @current_user
     if @current_user['code'] != 0
       redirect '/'
       return
