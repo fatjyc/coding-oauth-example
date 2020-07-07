@@ -13,6 +13,6 @@ jobs:
       uses: machine-learning-apps/gpr-docker-publish@master
       with:
         username: fatjyc
-        IMAGE_NAME: server
+        IMAGE_NAME: coding-oauth-example
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
