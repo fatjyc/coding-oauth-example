@@ -1,0 +1,20 @@
+name: main
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v1
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag server:$(git rev-parse --short "$GITHUB_SHA")
+
+    - name: Publish Docker Images to GPR
+      uses: machine-learning-apps/gpr-docker-publish@master
+      with:
+        username: fatjyc
+        IMAGE_NAME: server
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
