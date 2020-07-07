@@ -1,0 +1,12 @@
+version: "3"
+services:
+  myurls:
+    image: jiong/coding-oauth-example
+    restart: "always"
+    ports:
+      - 9292:9292
+    command: bundle exec unicorn -c config/unicorn.rb
+    environment:
+      - CLIENT_ID=d3ce0f6c2e69d5ad5e77d2b645895fea
+      - CLIENT_SECRET=d4be9751b31cd94cc3f22b43ea87db2fca8e992b
+      - HOST=http://codingcorp.coding.com
