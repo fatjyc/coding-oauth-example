@@ -1,1 +1,29 @@
-<a href="<%=@url %>">go</a>
+
+URL: <input type="text" id="url" value="<%= @url %>">
+<br />
+Client: <input type="password" id="client_id" value="<%= @client_id %>">
+<br />
+Client Secret: <input type="password" id="client_secret" value="<%= @client_secret %>">
+<br />
+<input type="hidden" id="host" value="<%= @host %>">
+
+<button id="go">Go</button>
+
+<script>
+  (function() {
+    var go_btn = document.getElementById('go');
+
+    var host_input = document.getElementById('host')
+
+    host_input.value = document.location.origin;
+
+    go.addEventListener('click', () => {
+      var url = document.getElementById("url").value;
+      var client_id = document.getElementById("client_id").value;
+      var client_secret = document.getElementById("client_secret").value;
+      var host = encodeURIComponent(host_input.value)
+
+      document.location = `${url}/oauth_authorize.html?client_id=${client_id}&redirect_uri=${host}/api/oauth/callback&response_type=code&scope=user,user:email`;
+    });
+  })();
+</script>

@@ -5,17 +5,13 @@ class CodingOauth < Sinatra::Base
   begin
     cnf = YAML::load_file(File.join(__dir__, 'config.yml'))
 
-    @@host = cnf['host']
     @@url = cnf['url']
     @@client_id = cnf['client_id']
     @@client_secret = cnf['client_secret']
-    @@domain = cnf['domain']
   rescue
-    @@host = ENV['host']
-    @@url = ENV['url']
-    @@client_id = ENV['client_id']
-    @@client_secret =  ENV['client_secret']
-    @@domain = ENV['domain']
+    @@url = ENV['URL']
+    @@client_id = ENV['CLIENT_ID']
+    @@client_secret =  ENV['CLIENT_SECRET']
   end
 
   configure :development do
@@ -23,7 +19,9 @@ class CodingOauth < Sinatra::Base
   end
 
   get '/' do
-    @url = "#{@@url}/oauth_authorize.html?client_id=#{@@client_id}&redirect_uri=#{URI.unescape(@@host)}/api/oauth/callback&response_type=code&scope=user,user:email"
+    @url = @@url
+    @client_id = @@client_id
+    @client_secret = @@client_secret
     erb :index
   end
 
@@ -54,6 +52,7 @@ class CodingOauth < Sinatra::Base
       return
     end
     @email = @emails['data'][0]['email']
+    @access_token = access_token
     erb :oauth
   end
 end
