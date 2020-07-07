@@ -23,7 +23,7 @@ class CodingOauth < Sinatra::Base
   end
 
   get '/' do
-    @url = "#{@@url}/oauth_authorize.html?client_id=#{@@client_id}&redirect_uri=#{URI.unescape(@@host)}/api/oauth/callback&response_type=code&scope=all"
+    @url = "#{@@url}/oauth_authorize.html?client_id=#{@@client_id}&redirect_uri=#{URI.unescape(@@host)}/api/oauth/callback&response_type=code&scope=user,user:email"
     erb :index
   end
 
@@ -45,6 +45,15 @@ class CodingOauth < Sinatra::Base
       return
     end
     @current_user = @current_user['data']
+
+    uri = URI.parse("#{@@url}/api/user/email?access_token=#{access_token}")
+    respone = Net::HTTP.get(uri)
+    @emails = JSON.parse(respone)
+    if @emails['code'] != 0
+      redirect '/'
+      return
+    end
+    @email = @emails['data'][0]['email']
     erb :oauth
   end
 end
