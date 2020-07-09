@@ -47,11 +47,9 @@ class CodingOauth < Sinatra::Base
     uri = URI.parse("#{@@url}/api/user/email?access_token=#{access_token}")
     respone = Net::HTTP.get(uri)
     @emails = JSON.parse(respone)
-    if @emails['code'] != 0
-      redirect '/'
-      return
+    if @emails['code'] == 0
+      @email = @emails['data'][0]['email']
     end
-    @email = @emails['data'][0]['email']
     @access_token = access_token
     erb :oauth
   end
